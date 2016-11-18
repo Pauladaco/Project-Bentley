@@ -1,0 +1,16 @@
+#+TITLE: Bentley e o problema do máximo subvetor em Racket
+#+AUTHOR: Paula Dacó, Rafael Mesquita e Waldo Ramalho
+
+
+
+* Introdução 
+
+
+** Design de algoritmos e o problema do máximo subvetor
+
+
+ * Algoritmos
+
+* Resultados
+
+* Conclusão
