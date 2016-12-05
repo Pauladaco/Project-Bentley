@@ -11,7 +11,6 @@ Neste projeto, vamos implementar em Racket quatro códigos do artigo "Programmin
 O problema envolve calcular, dada uma lista, a maior soma dos elementos dessa lista. Podemos pensar como a lista fosse um vetor e queremos extrair um subvetor que contenha a maior soma possível. Inicialmente, implementamos um algoritmo de ordem cúbica de grandeza. Perceba que a sua essência é for dentro de for, ocasionando assim, várias recursões durante o processo. Para começar, tivemos de implementar uma função que chamamos de =X=. Esta, por sua vez, é responsável por fazer a soma dos elementos no intervalo especificado. Para conseguirmos especificar o intervalo, criamos dois ponteiros: um que aponta para o início do intervalo e outro que aponta para o final.
 
 #+BEGIN_SRC
-
 (define (X lista ptr1 ptr2)
 (define (aux-X lista ptr1 ptr2 counter)
 (if (equal? ptr1 ptr2)
@@ -35,7 +34,6 @@ p))))))
 (else 0)))
 (define (MaxSoFar1 lst)
 (multi-max (MaxSoFaraux lst)))
-
 #+END_SRC
 
 A função principal, ou seja, a função que retorna o subvetor de maior soma é a =MaxSoFar1=. Ela depende da função =MaxSoFaraux= e da =multi-max=. A primeira é responsável por, a partir de um elemento, calcular todas as somas possíveis com os outros e colocá-las em uma lista. Isso ocorre para cada elemento da lista. Sendo assim, se temos /N/ elementos, teremos /N/ sublistas em uma lista. Por conta disso, tivemos de implementar uma função que retornasse o valor máximo dessa lista de listas. E é este o propósito da segunda função mencionada =multi-max=.
@@ -45,7 +43,6 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 Outra implementação que fizemos tem uma ordem quadrática de grandeza. É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse algoritmo ficou conhecido como /Um algoritmo de divisão e conquista/. No artigo original, também foi sugerido fazer o mesmo algoritmo, porém usando /arrays/. A seguir está o algoritmo implementado para listas:
 
 #+BEGIN_SRC
-
 (define (createvector lst)
 (let ((k (length lst)))
 (define (aux lst1 lst2 counter)
@@ -69,7 +66,6 @@ p)))))
 (define (MaxSoFar2 lst)
 (let ((p (createvector lst)))
 (max (MaxSoFar1 (car p)) (MaxSoFar1 (cadr p)) (MaxMiddle p))))
-
 #+END_SRC
 
 Para melhor compreensão, vamos explicar melhor o objetivo desse segundo algoritmo =MaxSoFar2=. A ideia é:
