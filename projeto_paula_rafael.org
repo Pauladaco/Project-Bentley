@@ -1,0 +1,203 @@
+#+Title: Projeto: Tradução de artigo para Racket
+
+#+Author: Paula Daco e Rafael Mesquita
+
+* Introdução
+
+Neste projeto, vamos implementar em Racket quatro
+
+códigos do artigo &quot;Programming Pearls&quot; feito por
+
+Jon Bentley em 1984. Nossa motivação principal em
+
+escolher tal como nosso projeto foi [...]
+
+* O problema e um simples programa
+
+O problema envolve calcular, dada uma lista, a maior soma
+
+dos elementos dessa lista. Podemos pensar como a lista fosse
+
+um vetor e queremos extrair um subvetor que contenha a maior
+
+soma possível. Inicialmente, implementamos um algoritmo de ordem
+
+cúbica de grandeza. Perceba que a sua essência é for dentro de
+
+for, ocasionando assim, várias recursões durante o processo. Para
+
+começar, tivemos de implementar uma função que chamamos de =X=. Esta,
+
+por sua vez, é responsável por fazer a soma dos elementos no intervalo
+
+especificado. Para conseguirmos especificar o intervalo, criamos dois
+
+ponteiros: um que aponta para o início do intervalo e outro que
+
+aponta para o final.
+
+#+BEGIN_SRC
+
+(define (X lista ptr1 ptr2)
+
+(define (aux-X lista ptr1 ptr2 counter)
+
+(if (equal? ptr1 ptr2)
+
+counter
+
+(aux-X lista ptr1 (- ptr2 1) (+ counter (list-ref lista (- ptr2 1))))))
+
+(aux-X lista ptr1 ptr2 (list-ref lista (- ptr1 1))))
+
+(define (MaxSoFaraux lst)
+
+(let ((p empty))
+
+(if (null? lst)
+
+empty
+
+(for/list ((i (+ (length lst) 1))
+
+#:when (&gt; i 0))
+
+(for/list ((j (range i (+ (length lst) 1))))
+
+(begin (set! p (X lst i j))
+
+p))))))
+
+(define (multi-max lst)
+
+(cond ((pair? lst) (max (multi-max (car lst)) (multi-max (cdr lst))))
+
+((number? lst) lst)
+
+(else 0)))
+
+(define (MaxSoFar1 lst)
+
+(multi-max (MaxSoFaraux lst)))
+
+#+END_SRC
+
+A função principal, ou seja, a função que retorna o
+
+subvetor de maior soma é a =MaxSoFar1=. Ela depende da função
+
+=MaxSoFaraux= e da =multi-max=. A primeira é responsável por,
+
+a partir de um elemento, calcular todas as somas possíveis com
+
+os outros e colocá-las em uma lista. Isso ocorre para cada elemento
+
+da lista. Sendo assim, se temos /N/ elementos, teremos /N/ sublistas
+
+em uma lista. Por conta disso, tivemos de implementar
+
+uma função que retornasse o valor máximo dessa lista de listas. E é
+
+este o propósito da segunda função mencionada =multi-max=.
+
+** Uma estratégia diferente
+
+Outra implementação que fizemos tem uma ordem quadrática de
+
+grandeza. É baseada na ideia de dividir a lista ao meio e
+
+calcular a maior soma na primeira metade, na segunda metade e
+
+por fim, calcular a maior soma que passe pelo meio onde a lista
+
+incial foi dividida. Esse algoritmo ficou conhecido como /Um algoritmo
+
+de divisão e conquista/. No artigo original, também foi sugerido
+
+fazer o mesmo algoritmo, porém usando /arrays/. A seguir está
+
+o algoritmo implementado para listas:
+
+#+BEGIN_SRC
+
+(define (createvector lst)
+
+(let ((k (length lst)))
+
+(define (aux lst1 lst2 counter)
+
+(if (equal? counter 0)
+
+(list lst1 lst2)
+
+(aux (append lst1 (list (car lst2))) (cdr lst2) (- counter 1))))
+
+(if (even? k)
+
+(aux (list (car lst)) (cdr lst) (- (/ k 2) 1))
+
+(aux (list (car lst)) (cdr lst) (- (/ (+ k 1) 2) 1)))))
+
+(define (MaxBegin lista)
+
+(let ((p empty))
+
+(if (null? lista)
+
+empty
+
+(for/list ((j (+ (length lista) 1))
+
+#:when (&gt; j 0))
+
+(begin (set! p (X lista 1 j))
+
+p)))))
+
+(define (MaxMiddle lst)
+
+(+ (multi-max (MaxBegin (reverse (car lst)))) (multi-max (MaxBegin (cadr lst)))))
+
+(define (MaxSoFar2 lst)
+
+(let ((p (createvector lst)))
+
+(max (MaxSoFar1 (car p)) (MaxSoFar1 (cadr p)) (MaxMiddle p))))
+
+#+END_SRC
+
+Para melhor compreensão, vamos explicar melhor o objetivo
+
+desse segundo algoritmo =MaxSoFar2=. A ideia é:
+
+- Dividir a lista ao meio, criando assim, o que chamamos de vetor;
+
+- Calcular a maior soma em cada vetor através de um subvetor
+
+que comece pelo primeiro termo. Veja bem, o subvetor pode ser o
+
+próprio vetor, bastando que a maior soma seja o próprio vetor;
+
+- Calcular a maior soma que passe pelo intervalo intermediário
+
+onde foi dividida a lista.
+
+Perceba que, para calcular as maiores somas, foram necessárias as
+
+funções =createlist= e =MaxMiddle=. A primeira para que criasse os
+
+dois vetores e a segunda para que a soma do &quot;meio&quot; fosse computada.
+
+Sabendo que a =MaxMiddle= recebe uma lista com os dois vetores formados,
+
+ela opera com o /car/ e com o /cadr/(os vetores).
+
+** Por que opera com o /(reverse (car lst))/?
+
+A ideia é simples: =MaxMiddle= opera com /cadr/ normalmente, pois o
+
+primeiro elemento do segundo vetor está logo após o intervalo intermediário.
+
+Porém, o primeiro elemento do primeiro vetor não está. Por isso, a função precisa
+
+do /reverse/, para que consiga computar a soma que está no intervalo intermediário.
