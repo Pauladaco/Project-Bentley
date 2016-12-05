@@ -45,28 +45,30 @@ Outra implementação que fizemos tem uma ordem quadrática de grandeza. É base
 
 #+BEGIN_SRC scheme
 (define (createvector lst)
-(let ((k (length lst)))
-(define (aux lst1 lst2 counter)
-(if (equal? counter 0)
-(list lst1 lst2)
-(aux (append lst1 (list (car lst2))) (cdr lst2) (- counter 1))))
-(if (even? k)
-(aux (list (car lst)) (cdr lst) (- (/ k 2) 1))
-(aux (list (car lst)) (cdr lst) (- (/ (+ k 1) 2) 1)))))
+  (let ((k (length lst)))
+    (define (aux lst1 lst2 counter)
+      (if (equal? counter 0)
+          (list lst1 lst2)
+          (aux (append lst1 (list (car lst2))) (cdr lst2) (- counter 1))))
+    (if (even? k)
+        (aux (list (car lst)) (cdr lst) (- (/ k 2) 1))
+        (aux (list (car lst)) (cdr lst) (- (/ (+ k 1) 2) 1)))))
 
 (define (MaxBegin lista)
-(let ((p empty))
-(if (null? lista)
-empty
-(for/list ((j (+ (length lista) 1))
-#:when (&gt; j 0))
-(begin (set! p (X lista 1 j))
-p)))))
+  (let ((p empty))
+   (if (null? lista)
+       empty
+       (for/list ((j (+ (length lista) 1))
+                  #:when (&gt; j 0))
+         (begin (set! p (X lista 1 j))
+                p)))))
+
 (define (MaxMiddle lst)
-(+ (multi-max (MaxBegin (reverse (car lst)))) (multi-max (MaxBegin (cadr lst)))))
+  (+ (multi-max (MaxBegin (reverse (car lst)))) (multi-max (MaxBegin (cadr lst)))))
+
 (define (MaxSoFar2 lst)
-(let ((p (createvector lst)))
-(max (MaxSoFar1 (car p)) (MaxSoFar1 (cadr p)) (MaxMiddle p))))
+  (let ((p (createvector lst)))
+   (max (MaxSoFar1 (car p)) (MaxSoFar1 (cadr p)) (MaxMiddle p))))
 #+END_SRC
 
 Para melhor compreensão, vamos explicar melhor o objetivo desse segundo algoritmo =MaxSoFar2=. A ideia é:
