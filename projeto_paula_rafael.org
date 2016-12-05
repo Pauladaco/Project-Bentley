@@ -10,7 +10,7 @@ Neste projeto, vamos implementar em Racket quatro códigos do artigo "Programmin
 
 O problema envolve calcular, dada uma lista, a maior soma dos elementos dessa lista. Podemos pensar como a lista fosse um vetor e queremos extrair um subvetor que contenha a maior soma possível. Inicialmente, implementamos um algoritmo de ordem cúbica de grandeza. Perceba que a sua essência é for dentro de for, ocasionando assim, várias recursões durante o processo. Para começar, tivemos de implementar uma função que chamamos de =X=. Esta, por sua vez, é responsável por fazer a soma dos elementos no intervalo especificado. Para conseguirmos especificar o intervalo, criamos dois ponteiros: um que aponta para o início do intervalo e outro que aponta para o final.
 
-#+BEGIN_SRC
+#+BEGIN_SRC scheme
 (define (X lista ptr1 ptr2)
 (define (aux-X lista ptr1 ptr2 counter)
 (if (equal? ptr1 ptr2)
@@ -42,7 +42,7 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 
 Outra implementação que fizemos tem uma ordem quadrática de grandeza. É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse algoritmo ficou conhecido como /Um algoritmo de divisão e conquista/. No artigo original, também foi sugerido fazer o mesmo algoritmo, porém usando /arrays/. A seguir está o algoritmo implementado para listas:
 
-#+BEGIN_SRC
+#+BEGIN_SRC scheme
 (define (createvector lst)
 (let ((k (length lst)))
 (define (aux lst1 lst2 counter)
