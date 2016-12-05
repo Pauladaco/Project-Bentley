@@ -23,7 +23,7 @@ O problema envolve calcular, dada uma lista, a maior soma dos elementos dessa li
    (if (null? lst)
        empty
        (for/list ((i (+ (length lst) 1))
-                  #:when (&gt; i 0))
+                  #:when (> i 0))
          (for/list ((j (range i (+ (length lst) 1))))
           (begin (set! p (X lst i j))
                  p))))))
@@ -59,7 +59,7 @@ Outra implementação que fizemos tem uma ordem quadrática de grandeza. É base
    (if (null? lista)
        empty
        (for/list ((j (+ (length lista) 1))
-                  #:when (&gt; j 0))
+                  #:when (> j 0))
          (begin (set! p (X lista 1 j))
                 p)))))
 
