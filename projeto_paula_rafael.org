@@ -124,6 +124,9 @@ A ideia é simples: =MaxMiddle= opera com /cadr/ normalmente, pois o primeiro el
                (- counter3 1))))
     (aux p MaxSoFar MaxEndingHere (array-size p))))
 
+
+(require math/array)
+
 #+END_SRC
 
 
