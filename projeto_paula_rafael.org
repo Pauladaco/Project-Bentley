@@ -1,6 +1,6 @@
 #+Title: Projeto: Tradução de artigo para Racket
 
-#+Author: Paula Daco, Rafael Mesquita e Waldo Ramalho
+#+Author: Paula Daco, Rafael Mesquita
 
 * Introdução
 
@@ -24,6 +24,7 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
          counter
          (aux-X lista ptr1 (- ptr2 1) (+ counter (list-ref lista (- ptr2 1))))))
    (aux-X lista ptr1 ptr2 (list-ref lista (- ptr1 1))))
+   
 
  (define (MaxSoFar-aux lst)
    (let ((p empty))
@@ -34,11 +35,13 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
          (for/list ((j (range i (+ (length lst) 1))))
           (begin (set! p (X lst i j))
                  p))))))
+                 
 
  (define (multi-max lst)
    (cond ((pair? lst) (max (multi-max (car lst)) (multi-max (cdr lst))))
          ((number? lst) lst)
          (else 0)))
+         
          
  (define (MaxSoFar lst)
    (multi-max (MaxSoFar-aux lst)))
@@ -62,6 +65,7 @@ O segundo algoritmo implementado tem uma ordem quadrática de grandeza (O(N²)).
     (if (even? k)
         (aux (list (car lst)) (cdr lst) (- (/ k 2) 1))
         (aux (list (car lst)) (cdr lst) (- (/ (+ k 1) 2) 1)))))
+        
 
 (define (MaxBegin lista)
   (let ((p empty))
@@ -71,10 +75,12 @@ O segundo algoritmo implementado tem uma ordem quadrática de grandeza (O(N²)).
                   #:when (> j 0))
          (begin (set! p (X lista 1 j))
                 p)))))
+                
 
 (define (MaxMiddle lst)
   (+ (multi-max (MaxBegin (reverse (car lst)))) (multi-max (MaxBegin (cadr lst)))))
-(
+  
+
 (define (MaxSoFar lst)
   (let ((p (createvector lst)))
    (max (MaxSoFar1 (car p)) (MaxSoFar1 (cadr p)) (MaxMiddle p))))
