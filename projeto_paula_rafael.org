@@ -1,6 +1,6 @@
 #+Title: Projeto: Tradução de artigo para Racket
 
-#+Author: Paula Daco, Rafael Mesquita
+#+Author: Paula Daco e Rafael Mesquita
 
 * Introdução
 
@@ -17,7 +17,7 @@ O problema envolve calcular, dada uma lista, a maior soma em uma sequência de e
 O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³)). Percebe-se que a essência deste algoritmo é utilizar =for= dentro de =for=, ocasionando assim, várias recursões durante o processo. Para começar, tivemos de implementar uma função que chamamos de =X=. Esta, por sua vez, é responsável por fazer a soma dos elementos no intervalo especificado. Para conseguirmos especificar o intervalo, criamos dois ponteiros: um que aponta para o início do intervalo e outro que aponta para o final.
 
 *Algoritmo O(N³)*
-#+BEGIN_SRC racket
+#+BEGIN_SRC scheme
  (define (X lista ptr1 ptr2)
    (define (aux-X lista ptr1 ptr2 counter)
      (if (equal? ptr1 ptr2)
@@ -55,7 +55,7 @@ O segundo algoritmo implementado tem uma ordem quadrática de grandeza (O(N²)).
 
 
 *Algoritmo O(N²)*
-#+BEGIN_SRC racket
+#+BEGIN_SRC scheme
 (define (createvector lst)
   (let ((k (length lst)))
     (define (aux lst1 lst2 counter)
@@ -103,7 +103,7 @@ A ideia é simples: =MaxMiddle= opera com /cadr/ normalmente, pois o primeiro el
 
 
 *Algoritmo O(N))*
-#+BEGIN_SRC racket
+#+BEGIN_SRC scheme
 
 (define (scanning-algorithm lst)
   (if (empty? lst) empty
