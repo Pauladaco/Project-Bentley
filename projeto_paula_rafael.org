@@ -104,15 +104,25 @@ A ideia é simples: =MaxMiddle= opera com /cadr/ normalmente, pois o primeiro el
 
 *Algoritmo O(N))*
 #+BEGIN_SRC scheme
+(define (X-array arr ptr1 ptr2)
+  (define (auxX-array arr ptr1 ptr2 counter)
+    (if (equal? ptr1 ptr2)
+        counter
+        (auxX-array arr ptr1 (- ptr2 1) (+ counter (array-ref arr (vector (- ptr2 1)))))))
+  (auxX-array arr ptr1 ptr2 (array-ref arr (vector (- ptr1 1)))))
 
-(define (scanning-algorithm lst)
-  (if (empty? lst) empty
-      (let* ([max-so-far 0] [max-ending-here 0])
-        (for/list ((I (range 0 (sub1 (length lst)))))
-          (begin
-            (set! max-ending-here (max 0 (+ max-ending-here (list-ref lst I))))
-            (set! max-so-far (max max-so-far max-ending-here))))
-        max-so-far)))
+(define (MaxSoFar lst) ; o código recebe uma lista e a transforma em array.
+  (let ((p (list->array lst))
+        (MaxSoFar 0)
+        (MaxEndingHere 0))
+    (define (aux arr counter1 counter2 counter3)
+      (if (equal? counter3 0)
+          (max counter1 counter2)
+          (aux arr (max counter1 counter2)
+               (max MaxEndingHere
+                    (+ counter2 (X-array arr counter3 counter3)))
+               (- counter3 1))))
+    (aux p MaxSoFar MaxEndingHere (array-size p))))
 
 #+END_SRC
 
