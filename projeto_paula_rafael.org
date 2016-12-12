@@ -51,10 +51,10 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 
 * A estratégia do segundo algoritmo
 
-O segundo algoritmo implementado tem uma ordem quadrática de grandeza (O(N²)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. No artigo origina, também foi sugerido fazer o mesmo algoritmo, porém usando /arrays/. A seguir está o algoritmo implementado com listas:
+O segundo algoritmo implementado tem uma ordem quadrática de grandeza (O(N²)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. No artigo original, também foi sugerido fazer o mesmo algoritmo, porém usando /arrays/. A seguir está o algoritmo implementado com listas:
 
 
-*Algoritmo O(N^2)*
+*Algoritmo O(N²)*
 #+BEGIN_SRC racket
 (define (createvector lst)
   (let ((k (length lst)))
