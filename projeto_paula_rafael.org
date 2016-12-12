@@ -4,7 +4,7 @@
 
 * Introdução
 
-Neste projeto, vamos implementar em Racket quatro pseudocódigos do /essay/ "Algorithm Design Techniques" da coluna "Programming Pearls" da revista da Association for Computing Machinery, escrito pelo cientista da computação Jon Bentley, em 1984. 
+Neste projeto, vamos implementar em Racket três pseudocódigos do /essay/ "Algorithm Design Techniques" da coluna "Programming Pearls" da revista da Association for Computing Machinery, escrito pelo cientista da computação Jon Bentley, em 1984. 
 
 A coletânea dos textos da "Programming Pearls" é um clássico da commputação, citado por quase 300 papers da área, mas "Algorithm Design Techniques" merece um destaque especial, pois apresenta a discussão sobre complexidade computacional, algoritmos e técnicas de design de algoritmos de forma acessível e a exemplifica através de um problema específico. 
 
@@ -51,10 +51,10 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 
 * A estratégia do segundo algoritmo
 
-O segundo algoritmo implementado tem uma ordem quadrática de grandeza (O(N²)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. No artigo original, também foi sugerido fazer o mesmo algoritmo, porém usando /arrays/. A seguir está o algoritmo implementado com listas:
+O segundo algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. No artigo original, também foi sugerido fazer o mesmo algoritmo, porém usando /arrays/. A seguir está o algoritmo implementado com listas:
 
 
-*Algoritmo O(N²)*
+*Algoritmo O(Nlog(N))*
 #+BEGIN_SRC scheme
 (define (createvector lst)
   (let ((k (length lst)))
