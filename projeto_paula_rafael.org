@@ -43,7 +43,7 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
          (else 0)))
          
          
- (define (MaxSoFar lst)
+ (define (MaxSoFar-1 lst)
    (multi-max (MaxSoFar-aux lst)))
 #+END_SRC
 
@@ -81,9 +81,9 @@ O segundo algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia 
   (+ (multi-max (MaxBegin (reverse (car lst)))) (multi-max (MaxBegin (cadr lst)))))
   
 
-(define (MaxSoFar lst)
+(define (MaxSoFar-2 lst)
   (let ((p (createvector lst)))
-   (max (MaxSoFar1 (car p)) (MaxSoFar1 (cadr p)) (MaxMiddle p))))
+   (max (MaxSoFar-1 (car p)) (MaxSoFar-1 (cadr p)) (MaxMiddle p))))
 #+END_SRC
 
 Para melhor compreensão, vamos explicar melhor o objetivo da implementação do algoritmo a partir da =MaxSoFar=. A ideia é:
@@ -111,7 +111,7 @@ A ideia é simples: =MaxMiddle= opera com /cadr/ normalmente, pois o primeiro el
         (auxX-array arr ptr1 (- ptr2 1) (+ counter (array-ref arr (vector (- ptr2 1)))))))
   (auxX-array arr ptr1 ptr2 (array-ref arr (vector (- ptr1 1)))))
 
-(define (MaxSoFar lst) ; o código recebe uma lista e a transforma em array.
+(define (MaxSoFar-3 lst) ; o código recebe uma lista e a transforma em array.
   (let ((p (list->array lst))
         (MaxSoFar 0)
         (MaxEndingHere 0))
