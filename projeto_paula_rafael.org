@@ -4,7 +4,7 @@
 
 * Introdução
 
-Neste projeto, vamos implementar em Racket quatro pseudocódigos do /essay/ "Algorithm Design Techniques" da coluna "Programming Pearls" da revista da Association for Computing Machinery, escrito pelo cientista da computação Jon Bentley, em 1984. 
+Neste projeto, vamos implementar em Racket três pseudocódigos do /essay/ "Algorithm Design Techniques" da coluna "Programming Pearls" da revista da Association for Computing Machinery, escrito pelo cientista da computação Jon Bentley, em 1984. 
 
 A coletânea dos textos da "Programming Pearls" é um clássico da commputação, citado por quase 300 papers da área, mas "Algorithm Design Techniques" merece um destaque especial, pois apresenta a discussão sobre complexidade computacional, algoritmos e técnicas de design de algoritmos de forma acessível e a exemplifica através de um problema específico. 
 
@@ -43,7 +43,7 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
          (else 0)))
          
          
- (define (MaxSoFar lst)
+ (define (MaxSoFar-1 lst)
    (multi-max (MaxSoFar-aux lst)))
 #+END_SRC
 
@@ -51,10 +51,10 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 
 * A estratégia do segundo algoritmo
 
-O segundo algoritmo implementado tem uma ordem quadrática de grandeza (O(N²)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. No artigo original, também foi sugerido fazer o mesmo algoritmo, porém usando /arrays/. A seguir está o algoritmo implementado com listas:
+O segundo algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. No artigo original, também foi sugerido fazer o mesmo algoritmo, porém usando /arrays/. A seguir está o algoritmo implementado com listas:
 
 
-*Algoritmo O(N²)*
+*Algoritmo O(Nlog(N))*
 #+BEGIN_SRC scheme
 (define (createvector lst)
   (let ((k (length lst)))
@@ -81,9 +81,9 @@ O segundo algoritmo implementado tem uma ordem quadrática de grandeza (O(N²)).
   (+ (multi-max (MaxBegin (reverse (car lst)))) (multi-max (MaxBegin (cadr lst)))))
   
 
-(define (MaxSoFar lst)
+(define (MaxSoFar-2 lst)
   (let ((p (createvector lst)))
-   (max (MaxSoFar1 (car p)) (MaxSoFar1 (cadr p)) (MaxMiddle p))))
+   (max (MaxSoFar-1 (car p)) (MaxSoFar-1 (cadr p)) (MaxMiddle p))))
 #+END_SRC
 
 Para melhor compreensão, vamos explicar melhor o objetivo da implementação do algoritmo a partir da =MaxSoFar=. A ideia é:
@@ -111,7 +111,7 @@ A ideia é simples: =MaxMiddle= opera com /cadr/ normalmente, pois o primeiro el
         (auxX-array arr ptr1 (- ptr2 1) (+ counter (array-ref arr (vector (- ptr2 1)))))))
   (auxX-array arr ptr1 ptr2 (array-ref arr (vector (- ptr1 1)))))
 
-(define (MaxSoFar lst) ; o código recebe uma lista e a transforma em array.
+(define (MaxSoFar-3 lst) ; o código recebe uma lista e a transforma em array.
   (let ((p (list->array lst))
         (MaxSoFar 0)
         (MaxEndingHere 0))
@@ -123,6 +123,9 @@ A ideia é simples: =MaxMiddle= opera com /cadr/ normalmente, pois o primeiro el
                     (+ counter2 (X-array arr counter3 counter3)))
                (- counter3 1))))
     (aux p MaxSoFar MaxEndingHere (array-size p))))
+
+
+(require math/array)
 
 #+END_SRC
 
