@@ -18,3 +18,6 @@
                     (begin (set! p (X lst i j)))
                     empty))))
     p))
+    
+    ;;esse codigo guarda o valor maximo, ele nao precisa de uma funcao;;
+    ;;externa para pegar o valor maximo em uma lista de resultados;;
