@@ -100,12 +100,6 @@ Para melhor compreensão, vamos explicar melhor o objetivo da implementação do
 2. Calcular a maior soma em cada vetor através de um subvetor que comece pelo primeiro termo. No caso de vetores não-negativos, o subvetor é o próprio vetor.
 3. Calcular a maior soma que passe pelo intervalo intermediário onde foi dividida a lista.
 
-Perceba que, para calcular as maiores somas, foram necessárias as funções =createvector= e =MaxMiddle=. A primeira é necessária para criar os dois vetores, enquanto a segunda serve para computar a soma do intervalo intermediário. Sabendo que a =MaxMiddle= recebe uma lista com os dois vetores formados, ela opera com o /car/ e com o /cadr/ desta lista (ou seja, com os vetores)
-.
-** Por que opera com o /(reverse (car lst))/?
-
-A ideia é simples: =MaxMiddle= opera com /cadr/ normalmente, pois o primeiro elemento do segundo vetor está logo após o intervalo intermediário. Porém, o primeiro elemento do primeiro vetor não está. Por isso, a função precisa do /reverse/, para que consiga computar a soma que está no intervalo intermediário.
-
 * Implementação do terceiro algoritmo
 
 
