@@ -39,7 +39,7 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
     p))
 #+END_SRC
 
-A função principal, ou seja, a função que retorna o subvetor de maior soma é a =MaxSoFar=. Ela depende da função =MaxSoFar-aux= e da =multi-max=. A primeira é responsável por, a partir de um elemento, calcular todas as somas possíveis com os outros e colocá-las em uma lista. Isso ocorre para cada elemento da lista. Sendo assim, se temos /N/ elementos, teremos /N/ sublistas em uma lista. Por conta disso, tivemos de implementar uma função que retornasse o valor máximo dessa lista de listas. E é este o propósito da segunda função mencionada =multi-max=.
+A função principal, ou seja, a função que retorna o subvetor de maior soma é a =MaxSoFar=. Ela usa a função =X= para calcular a soma dos intervalos. Os intervalos são feitos pelo uso de 2 =for= o primeiro gera um =i= de 1 até =N=, e o segundo gera um =j= de =i= até =N=, assim temos intervalos de =i= até =j= que cobrem todas as possibilidades de subvetores possíveis. O subvetor de soma máxima é encontrado com o uso da variável =p=, sempre que a soma de um intervalo é maior que a maior soma já encontrada o =p= se atualiza. No fim desse loop o =p= é a soma do subvetor de maior soma.
 
 * A estratégia do segundo algoritmo
 
