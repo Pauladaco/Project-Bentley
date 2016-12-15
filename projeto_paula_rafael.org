@@ -45,6 +45,7 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 
 Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia nos pareceu a mesma, com a sutileza da criação que da variável temporária que guarda a soma para que a variável de estado principal /MaxSoFar/ seja atualizada conforme o valor for maior que o já estabelecido. Fizemos uma implementação com arrays. A função =X-array= é análoga a função =X= do código acima, apenas adaptada para trabalhar com /arrays/.
 
+*Algoritmo O(N²)*
 #+BEGIN_SRC scheme
 
 (require math/array)
