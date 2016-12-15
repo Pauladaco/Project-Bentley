@@ -118,7 +118,7 @@ Para melhor compreensão, vamos explicar melhor o objetivo da implementação do
 
 #+END_SRC
 
-*Tabela com resultados dos algoritimos
+* Tabela com resultados dos algoritimos
 
 | Algoritimo             |     | 1           | 2           | 3             |
 |------------------------+-----+-------------+-------------+---------------|
