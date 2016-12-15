@@ -56,34 +56,42 @@ O segundo algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia 
 
 *Algoritmo O(Nlog(N))*
 #+BEGIN_SRC scheme
-(define (createvector lst)
-  (let ((k (length lst)))
-    (define (aux lst1 lst2 counter)
-      (if (equal? counter 0)
-          (list lst1 lst2)
-          (aux (append lst1 (list (car lst2))) (cdr lst2) (- counter 1))))
-    (if (even? k)
-        (aux (list (car lst)) (cdr lst) (- (/ k 2) 1))
-        (aux (list (car lst)) (cdr lst) (- (/ (+ k 1) 2) 1)))))
-        
+(define (MaxSum lst ptr1 ptr2)
+  (cond ((> ptr1 ptr2)
+         0)
+        ((equal? ptr1 ptr2)
+         (list-ref lst (- ptr1 1)))
+        ((even? (+ ptr1 ptr2))
+         (begin (let ((M (/ (+ ptr1 ptr2) 2))
+                      (Sum1 0)
+                      (Sum2 0)
+                      (MaxToRight 0)
+                      (MaxToLeft 0)
+                      (MaxCrossing 0))
+                  (for ((i (range M ptr2)))
+                    (begin (set! Sum1 (+ Sum1 (list-ref lst i)))
+                           (set! MaxToRight (max MaxToRight Sum1))))
+                  (for ((j (range (- M 1) (- ptr1 2) -1)))
+                    (begin (set! Sum2 (+ Sum2 (list-ref lst j)))
+                           (set! MaxToLeft (max MaxToLeft Sum2))))
+                  (set! MaxCrossing (+ MaxToRight MaxToLeft))
+                  (max (MaxSum lst 1 (- M 1)) (MaxSum lst M ptr2) MaxCrossing))))
+        ((odd? (+ ptr1 ptr2))
+         (begin (let ((M (/ (+ ptr1 ptr2 1) 2))
+                      (Sum1 0)
+                      (Sum2 0)
+                      (MaxToRight 0)
+                      (MaxToLeft 0)
+                      (MaxCrossing 0))
+                  (for ((i (range M ptr2)))
+                    (begin (set! Sum1 (+ Sum1 (list-ref lst i)))
+                           (set! MaxToRight (max MaxToRight Sum1))))
+                  (for ((j (range (- M 1) (- ptr1 2) -1)))
+                    (begin (set! Sum2 (+ Sum2 (list-ref lst j)))
+                           (set! MaxToLeft (max MaxToLeft Sum2))))
+                  (set! MaxCrossing (+ MaxToRight MaxToLeft))
+                  (max (MaxSum lst 1 (- M 1)) (MaxSum lst M ptr2) MaxCrossing))))))
 
-(define (MaxBegin lista)
-  (let ((p empty))
-   (if (null? lista)
-       empty
-       (for/list ((j (+ (length lista) 1))
-                  #:when (> j 0))
-         (begin (set! p (X lista 1 j))
-                p)))))
-                
-
-(define (MaxMiddle lst)
-  (+ (multi-max (MaxBegin (reverse (car lst)))) (multi-max (MaxBegin (cadr lst)))))
-  
-
-(define (MaxSoFar-2 lst)
-  (let ((p (createvector lst)))
-   (max (MaxSoFar-1 (car p)) (MaxSoFar-1 (cadr p)) (MaxMiddle p))))
 #+END_SRC
 
 Para melhor compreensão, vamos explicar melhor o objetivo da implementação do algoritmo a partir da =MaxSoFar=. A ideia é:
