@@ -26,7 +26,7 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
   (aux-X lista ptr1 ptr2 (list-ref lista (- ptr1 1))))
 
 
-(define (MaxSoFar1 lst)
+(define (MaxSoFar-1 lst)
   (let ((p 0))
   (if (null? lst)
       empty
