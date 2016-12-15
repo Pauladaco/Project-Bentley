@@ -41,9 +41,34 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
 
 A função principal, ou seja, a função que retorna o subvetor de maior soma é a =MaxSoFar=. Esta usa a função =X= para calcular a soma dos intervalos. Os intervalos são feitos pelo uso de dois =for= o primeiro gera um =i= de 1 até =N=, e o segundo gera um =j= de =i= até =N=, assim temos intervalos de =i= até =j= que cobrem todas as possibilidades de subvetores possíveis. O subvetor de soma máxima é encontrado com o uso da variável =p=, sempre que a soma de um intervalo é maior que a maior soma já encontrada o =p= se atualiza. No fim desse loop o =p= é a soma do subvetor de maior soma.
 
-* A estratégia do segundo algoritmo
+* O segundo algoritmo
 
-O segundo algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. A seguir está o algoritmo implementado com listas:
+Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia nos pareceu a mesma, com a sutileza da criação que da variável temporária que guarda a soma para que a variável de estado principal /MaxSoFar/ seja atualizada conforme o valor for maior que o já estabelecido. Fizemos uma implementação com arrays. A função =X-array= é análoga a função =X= do código acima, apenas adaptada para trabalhar com /arrays/.
+
+#+BEGIN_SRC scheme
+
+(require math/array)
+
+(define (CumArray x)
+  (let ((Sum 0)
+        (MaxSoFar 0))
+    (begin (for ((L (range 1 (+ (array-size x) 1))))
+             (for ((U (range L (+ (array-size x) 1)))
+                   #:when(> U L))
+               (begin (set! Sum (X-array x L U))
+                      (set! MaxSoFar (max MaxSoFar Sum)))))
+           MaxSoFar)))
+
+(define (X-array arr ptr1 ptr2)
+  (define (auxX-array arr ptr1 ptr2 counter)
+    (if (equal? ptr1 ptr2)
+        counter
+        (auxX-array arr ptr1 (- ptr2 1) (+ counter (array-ref arr (vector (- ptr2 1)))))))
+  (auxX-array arr ptr1 ptr2 (array-ref arr (vector (- ptr1 1)))))
+
+* A estratégia do terceiro algoritmo
+
+O terceiro algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. A seguir está o algoritmo implementado com listas:
 
 
 *Algoritmo O(Nlog(N))*
@@ -93,7 +118,7 @@ Ou seja, inicializamos um vetor, dividindo-o na metade e fazendo todo esse proce
 ** Por que a função /normalize/ foi criada?
 A função =normalize= foi criada com o objetivo de facilitar o processamento do código, tendo em vista que haveria muitas divisões por dois(assumindo que os vetores sejam grandes). Suponhamos que queremos trabalhar com um vetor de tamanho 6. Este vetor é par e por isso, podemos dividi-lo por 2. Porém, ficaremos com dois vetores de tamanho 3 e sabendo que teremos de parti-lo novamente, teremos problemas(3/2=1,5). Com o intuito de evitar essas contas com decimais, criamos a =normalize= para tornar os vetores de tamanhos ímpares em tamanhos pares acrescentando 0, já que este é um elemento neutro da soma.
 
-* Implementação do terceiro algoritmo
+* Implementação do quarto algoritmo
 
 Nesta implementação, temos um código com ordem de grandeza *O(N)*. Sua essência é trabalhar com /arrays/ e é fundamentado na seguinte ideia: consideremos a soma de um intervalo X[I] e consideremos ainda, que essa seja a maior soma. No artigo, o autor diz que se a maior soma encontra-se em X[I], a segunda maior soma tem que ser encontrada em X[I-1]. Com essa ideia em mente, criamos uma função que percorre a lista uma única vez(este é o objetivo do /counter3/, que começa como o valor do tamanho do array), guardando apenas a maior soma através do uso recorrente da função =max= na variável =MaxSoFar=, após ser atualizada pela variável =MaxEndingHere=. Para que tal operação seja possível, precisamos da biblioteca /math-array/.
 
