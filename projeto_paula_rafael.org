@@ -81,11 +81,17 @@ O segundo algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia 
 
 #+END_SRC
 
-Para melhor compreensão, vamos explicar melhor o objetivo da implementação do algoritmo a partir da =MaxSoFar=. A ideia é:
+Para melhor compreensão, vamos explicar melhor o objetivo da implementação do algoritmo a partir da =MaxSum=. A ideia é:
 
 1. Dividir a lista ao meio, criando "vetores" (na verdade, subvetores do vetor original, que foi implementado como uma lista);
-2. Calcular a maior soma em cada vetor através de um subvetor que comece pelo primeiro termo. No caso de vetores não-negativos, o subvetor é o próprio vetor.
-3. Calcular a maior soma que passe pelo intervalo intermediário onde foi dividida a lista.
+2. Calcular a maior soma em cada vetor através de um subvetor que comece pelo primeiro termo. No caso de vetores não-negativos, o subvetor é o próprio vetor;
+3. Calcular a maior soma que passe pelo intervalo intermediário onde foi dividida a lista;
+4. A ideia principal é: fazer esses três passos acima com os vetores que tem tamanho maior que 1. 
+
+Ou seja, inicializamos um vetor, dividindo-o na metade e fazendo todo esse processamento acima descrito. Perceba que, após dividi-lo, temos dois outros vetores e, supondo que eles tenham tamanhos maior que 1, temos que fazer o mesmo processo com cada um deles.
+
+** Por que a função =normalize= foi criado?
+=Normalize= foi criada com o objetivo de facilitar o processamento do código, tendo em vista que haveria muitas divisões por 2(assumindo que os vetores sejam grandes). Suponhamos que queremos trabalhar com um vetor de tamanho 6. Este vetor é par e por isso, podemos dividi-lo por 2. Porém, ficaremos com dois vetores de tamanho 3 e sabendo que teremos de parti-lo novamente, teremos problemas(3/2=1,5). Com o intuito de evitar essas contas com decimais, criamos a =normalize= para tornar os vetores de tamanhos ímpares em tamanhos pares acrescentando 0, já que este é um elemento neutro da soma.
 
 * Implementação do terceiro algoritmo
 
