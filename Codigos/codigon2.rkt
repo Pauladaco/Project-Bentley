@@ -16,3 +16,6 @@
                                       max
                                       (X-2 lst)))))
   (MaxSoFar4-iter lst 0))
+  
+  ;;tentei implementar o codigo n², nao tenho certeza se esse codigo tem complexida n²;;
+  ;;ele roda mais rapido que o n³ e mais lento que o n;;
