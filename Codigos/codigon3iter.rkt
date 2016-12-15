@@ -17,3 +17,6 @@
         counter
         (aux-X lista ptr1 (- ptr2 1) (+ counter (list-ref lista (- ptr2 1))))))
   (aux-X lista ptr1 ptr2 (list-ref lista (- ptr1 1))))
+  
+  ;;so fiz esse codigo pra ver se tinha diferença de tempo, entre esse e o que usa for;;
+  ;;esse fica um pouco mais lento;;
