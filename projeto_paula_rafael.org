@@ -147,3 +147,18 @@ Para melhor compreensão, vamos explicar melhor o objetivo da implementação do
 | 1O, N multiplies by      |     |             |             |               |
 
 
+* Gráficos
+
+Os gráficos mostram a relação tamanho do vetor(N) - tempo de execução(t).
+
+*Gráfico com todos os algoritimos*
+
+Nesse gráfico fica claro que o primeiro algoritimo ganha muito mais tempo de execução com o aumento do vetor do que os outros dois algoritimos.
+
+[[https://raw.githubusercontent.com/Pauladaco/LP-2016.2-EMAp-project/master/Gr-ficos/complexidade-1-2-3.png]]
+
+*Gráfico com os algoritimos 2 e 3*
+
+No gráfico anterior a diferença de complexidade entre os algoritimos 2 e 3 não estava clara. Porém nesse, como inclui apenas esses dois algoritimos, é possivel ver a diferença.
+
+[[https://raw.githubusercontent.com/Pauladaco/LP-2016.2-EMAp-project/master/Gr-ficos/Complexidade-2-3.png]]
