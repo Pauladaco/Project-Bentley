@@ -95,7 +95,7 @@ A função =normalize= foi criada com o objetivo de facilitar o processamento do
 
 * Implementação do terceiro algoritmo
 
-Nesta implementação, temos um código com ordem de grandeza *O(N)*. Sua essência é trabalhar com /arrays/ e é fundamentado na seguinte ideia: consideremos a soma de um intervalo X[I] e consideremos ainda, que essa seja a maior soma. No artigo, o autor diz que se a maior soma encontra-se em X[I], a segunda maior soma tem que ser encontrada em X[I-1]. Com essa ideia em mente, criamos uma função que percorre a lista uma única vez(este é o objetivo do /counter3/, que começa como o valor do tamanho do array), guardando apenas a maior soma através do uso recorrente da função =max= na variável =MaxSoFar=, após ser atualizada pela variável =MaxEndingHere=. Para que tal operação seja possível, precisamos da biblioteca */math-array/*.
+Nesta implementação, temos um código com ordem de grandeza *O(N)*. Sua essência é trabalhar com /arrays/ e é fundamentado na seguinte ideia: consideremos a soma de um intervalo X[I] e consideremos ainda, que essa seja a maior soma. No artigo, o autor diz que se a maior soma encontra-se em X[I], a segunda maior soma tem que ser encontrada em X[I-1]. Com essa ideia em mente, criamos uma função que percorre a lista uma única vez(este é o objetivo do /counter3/, que começa como o valor do tamanho do array), guardando apenas a maior soma através do uso recorrente da função =max= na variável =MaxSoFar=, após ser atualizada pela variável =MaxEndingHere=. Para que tal operação seja possível, precisamos da biblioteca /*math-array*/.
 
 *Algoritmo O(N))*
 #+BEGIN_SRC scheme
@@ -145,7 +145,7 @@ Nesta implementação, temos um código com ordem de grandeza *O(N)*. Sua essên
 
 * Gráficos
 
-Os gráficos mostram a relação tamanho do vetor(N) - tempo de execução(t).
+Os gráficos mostram a relação tamanho do vetor(N) /versus/ tempo de execução(t).
 
 *Gráfico com todos os algoritimos*
 
