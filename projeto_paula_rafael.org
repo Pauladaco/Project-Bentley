@@ -66,6 +66,8 @@ Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia nos 
         counter
         (auxX-array arr ptr1 (- ptr2 1) (+ counter (array-ref arr (vector (- ptr2 1)))))))
   (auxX-array arr ptr1 ptr2 (array-ref arr (vector (- ptr1 1)))))
+  
+#+END_SRC
 
 * A estratégia do terceiro algoritmo
 
