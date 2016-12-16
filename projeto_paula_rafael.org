@@ -143,33 +143,33 @@ Nesta implementação, temos um código com ordem de grandeza O(N). Sua essênci
 
 * Tabela com resultados dos algoritimos
 
-Para chegar a tabela abaixo, usamos a função =time= englobando as implementações feitas com um vetor criado com a =create-vector=, este disponível na pasta /códigos/.
+Para chegar a tabela abaixo, usamos a função =time= englobando as implementações feitas com um vetor criado com a =create-vector=, este disponível na pasta /códigos/. Os valores que aparecem na tabela foram alcançados através de regressões. Por exemplo, para concluir que leva-se 4.8 anos para a função MSF-1 operar sobre um vetor de tamanho 10^5, medimos o tempo que esta leva para operar com vetores de tamanhos 10^2 e 10^3. Testamos na MSF-2 vetores de tamanhos 10^2, 10^3 e 10^4, na MSF-3 com tamanhos 10^2, 10^3, 10^4 e 10^5. Por fim, testamos todos os tamanhos de vetores apresentados na MSF-3, tornando possível, assim, preencher a tabela e mostrar o tempo requerido por cada código. 
 
-| Algoritimo               |     | MSF-1       | MSF-2       | MaxSum      | MSF-3         |
-|--------------------------+-----+-------------+-------------+-------------+---------------|
-|                          |     |             |             |             |               |
-| Run Time (milissegundos) |     | 0,00015.N^3 | 0,0004N²    | 0,4.Nlog(N) | 0,04.N        |
-|--------------------------+-----+-------------+-------------+-------------+---------------|
-|                          |     |             |             |             |               |
-| Time to solve            | N^2 | 150 ms      | 4 ms        | 80 ms       | 4 ms          |
-| problem of size          | N^3 | 2.5 min     | 400 ms      | 1.2 s       | 40 ms         |
-|                          | N^4 | 41 hrs      | 40 s        | 16 s        | 0.4 s         |
-|                          | N^5 | 4.8 yrs     | 6.6 min     | 3.3 min     | 4 s           |
-|                          | N^6 | 4.8 mill    | 11.1 hrs    | 40 min      | 40 s          |
-|--------------------------+-----+-------------+-------------+-------------+---------------|
-|                          |     |             |             |             |               |
-| Max problem solved in    | s   | 188         | 500         | 852         | 25,000        |
-|                          | min | 736         | 3,873       | 33,179      | 1,500,000     |
-|                          | hr  | 2,884       | 30,000      | 1,460,000   | 90,000,000    |
-|                          | day | 8,320       | 147,000     | 28,948,135  | 2,160,000,000 |
-|--------------------------+-----+-------------+-------------+-------------+---------------|
-|                          |     |             |             |             |               |
-| If N multiplies by 1O,   |     | 1000        | 100         | 10+         | 10            |
-| time multiplies by       |     |             |             |             |               |
-|--------------------------+-----+-------------+-------------+-------------+---------------|
-|                          |     |             |             |             |               |
-| If time multiplies by    |     | 2.15        | 3.16        | 10-         | 10            |
-| 1O, N multiplies by      |     |             |             |             |               |
+| Algoritimo               |      | MSF-1       | MSF-2       | MaxSum      | MSF-3         |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| Run Time (milissegundos) |      | 0,00015.N^3 | 0,0004N²    | 0,4.Nlog(N) | 0,04.N        |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| Time to solve            | 10^2 | 150 ms      | 4 ms        | 80 ms       | 4 ms          |
+| problem of size          | 10^3 | 2.5 min     | 400 ms      | 1.2 s       | 40 ms         |
+|                          | 10^4 | 41 hrs      | 40 s        | 16 s        | 0.4 s         |
+|                          | 10^5 | 4.8 yrs     | 6.6 min     | 3.3 min     | 4 s           |
+|                          | 10^6 | 4.8 mill    | 11.1 hrs    | 40 min      | 40 s          |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| Max problem solved in    |  s   | 188         | 500         | 852         | 25,000        |
+|                          |  min | 736         | 3,873       | 33,179      | 1,500,000     |
+|                          |  hr  | 2,884       | 30,000      | 1,460,000   | 90,000,000    |
+|                          |  day | 8,320       | 147,000     | 28,948,135  | 2,160,000,000 |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| If N multiplies by 1O,   |      | 1000        | 100         | 10+         | 10            |
+| time multiplies by       |      |             |             |             |               |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| If time multiplies by    |      | 2.15        | 3.16        | 10-         | 10            |
+| 1O, N multiplies by      |      |             |             |             |               |
 
 
 * Gráficos
