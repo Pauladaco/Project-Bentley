@@ -145,7 +145,7 @@ Nesta implementação, temos um código com ordem de grandeza O(N). Sua essênci
 
 Para chegar a tabela abaixo, usamos a função =time= englobando as implementações feitas com um vetor criado com a =create-vector=, este disponível na pasta /códigos/. Os valores que aparecem na tabela foram alcançados através de regressões. Por exemplo, para concluir que leva-se 4.8 anos para a função MSF-1 operar sobre um vetor de tamanho 10^5, medimos o tempo que esta leva para operar com vetores de tamanhos 10^2 e 10^3. Testamos na MSF-2 vetores de tamanhos 10^2, 10^3 e 10^4, na MSF-3 com tamanhos 10^2, 10^3, 10^4 e 10^5. Por fim, testamos todos os tamanhos de vetores apresentados na MSF-3, tornando possível, assim, preencher a tabela e mostrar o tempo requerido por cada código. 
 
-| Algoritimo               |      | MSF-1       | MSF-2       | MaxSum      | MSF-3         |
+| Algoritimo               |      | msf-1       | msf-2       | max-sum     | msf-3         |
 |--------------------------+------+-------------+-------------+-------------+---------------|
 |                          |      |             |             |             |               |
 | Run Time (milissegundos) |      | 0,00015.N^3 | 0,0004N²    | 0,4.Nlog(N) | 0,04.N        |
@@ -182,9 +182,9 @@ Nesse gráfico fica claro que o primeiro algoritimo ganha muito mais tempo de ex
 
 [[https://raw.githubusercontent.com/Pauladaco/LP-2016.2-EMAp-project/master/Gr-ficos/ComplexidadeTodos.png]]
 
-*Gráfico com os algoritimos MSF-2 MaxSum e MSF-3*
+*Gráfico com os algoritimos msf-2 max-sum e msf-3*
 
-No gráfico anterior a diferença de complexidade entre os algoritimos MSF-2, MaxSum e MSF-3 não estava clara. Porém nesse, como inclui apenas esses três algoritimos, é possivel ver a diferença.
+No gráfico anterior a diferença de complexidade entre os algoritimos msf-2, max-sum e msf-3 não estava clara. Porém nesse, como inclui apenas esses três algoritimos, é possivel ver a diferença.
 
 [[https://raw.githubusercontent.com/Pauladaco/LP-2016.2-EMAp-project/master/Gr-ficos/Complexidade-2-MS-3.png]]
 
