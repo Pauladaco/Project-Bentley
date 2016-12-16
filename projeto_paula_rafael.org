@@ -18,15 +18,15 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
 
 *Algoritmo O(N³)*
 #+BEGIN_SRC scheme
- (define (X lista ptr1 ptr2)
-  (define (aux-X lista ptr1 ptr2 counter)
+ (define (x lista ptr1 ptr2)
+  (define (aux-x lista ptr1 ptr2 counter)
     (if (equal? ptr1 ptr2)
         counter
-        (aux-X lista ptr1 (- ptr2 1) (+ counter (list-ref lista (- ptr2 1))))))
-  (aux-X lista ptr1 ptr2 (list-ref lista (- ptr1 1))))
+        (aux-x lista ptr1 (- ptr2 1) (+ counter (list-ref lista (- ptr2 1))))))
+  (aux-x lista ptr1 ptr2 (list-ref lista (- ptr1 1))))
 
 
-(define (MaxSoFar-1 lst)
+(define (max-so-far-1 lst)
   (let ((p 0))
   (if (null? lst)
       empty
@@ -39,7 +39,7 @@ O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³))
     p))
 #+END_SRC
 
-A função principal, ou seja, a função que retorna o subvetor de maior soma é a =MaxSoFar=. Esta usa a função =X= para calcular a soma dos intervalos. Os intervalos são feitos pelo uso de dois =for= o primeiro gera um =i= de 1 até =N=, e o segundo gera um =j= de =i= até =N=, assim temos intervalos de =i= até =j= que cobrem todas as possibilidades de subvetores possíveis. O subvetor de soma máxima é encontrado com o uso da variável =p=, sempre que a soma de um intervalo é maior que a maior soma já encontrada o =p= se atualiza. No fim desse loop o =p= é a soma do subvetor de maior soma.
+A função principal, ou seja, a função que retorna o subvetor de maior soma é a =max-so-far=. Esta usa a função =x= para calcular a soma dos intervalos. Os intervalos são feitos pelo uso de dois =for= o primeiro gera um =i= de 1 até =n=, e o segundo gera um =j= de =i= até =n=, assim temos intervalos de =i= até =j= que cobrem todas as possibilidades de subvetores possíveis. O subvetor de soma máxima é encontrado com o uso da variável =p=, sempre que a soma de um intervalo é maior que a maior soma já encontrada o =p= se atualiza. No fim desse loop o =p= é a soma do subvetor de maior soma.
 
 * O segundo algoritmo
 
@@ -48,23 +48,23 @@ Neste algoritmo, temos uma ordem de grandeza quadrática O(N²). A ideia é: par
 *Algoritmo O(N²)*
 #+BEGIN_SRC scheme
 
-(define (X-2 lista)
-  (define (aux-X lista counter max)
+(define (x-2 lista)
+  (define (aux-x lista counter max)
     (if (empty? lista)
         max
-        (aux-X (cdr lista) (+ counter (car lista)) (if (< (+ counter (car lista)) max)
+        (aux-x (cdr lista) (+ counter (car lista)) (if (< (+ counter (car lista)) max)
                                                        max
                                                        (+ counter (car lista))))))
-  (aux-X lista 0 0))
+  (aux-x lista 0 0))
 
-(define (MaxSoFar-2 lst)
-  (define (MaxSoFar-iter lst max)
+(define (max-so-far-2 lst)
+  (define (max-so-far-iter lst max)
     (if (empty? lst)
         max
-        (MaxSoFar-iter (cdr lst) (if (< (X-2 lst) max)
+        (max-so-far-iter (cdr lst) (if (< (x-2 lst) max)
                                      max
-                                     (X-2 lst)))))
-  (MaxSoFar-iter lst 0))
+                                     (x-2 lst)))))
+  (max-so-far-iter lst 0))
   
 #+END_SRC
 
@@ -75,7 +75,7 @@ O terceiro algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia
 
 *Algoritmo O(Nlog(N))*
 #+BEGIN_SRC scheme
-(define (MaxSum lst)
+(define (max-sum lst)
   (define (createlist lst)
     (let ((k (length lst)))
       (define (aux lst1 lst2 counter)
@@ -95,8 +95,8 @@ O terceiro algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia
                          (begin (set! sum2 (+ sum2 (list-ref lst1 (- j 1))))
                                 (set! maxtoleft (max maxtoleft sum2))))
                        (set! maxcrossing (+ maxtoright maxtoleft))
-                       (max (MaxSum lst1)
-                            (MaxSum lst2)
+                       (max (max-sum lst1)
+                            (max-sum lst2)
                             maxcrossing)))))
   (let ((p (createlist lst)))
     (aux-sum (normalize (car p)) (normalize (cadr p)) 0 0 0 0 0)))
@@ -108,7 +108,7 @@ O terceiro algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia
 
 #+END_SRC
 
-Para melhor compreensão, vamos explicar melhor o objetivo da implementação do algoritmo a partir da =MaxSum=. A ideia é:
+Para melhor compreensão, vamos explicar melhor o objetivo da implementação do algoritmo a partir da =max-sum=. A ideia é:
 
 1. Dividir a lista ao meio, criando "vetores" (na verdade, subvetores do vetor original, que foi implementado como uma lista);
 2. Calcular a maior soma em cada vetor através de um subvetor que comece pelo primeiro termo. No caso de vetores não-negativos, o subvetor é o próprio vetor;
@@ -122,22 +122,22 @@ A função =normalize= foi criada com o objetivo de facilitar o processamento do
 
 * Implementação do quarto algoritmo
 
-Nesta implementação, temos um código com ordem de grandeza O(N). Sua essência é trabalhar com /arrays/ e é fundamentado na seguinte ideia: consideremos a soma de um intervalo X[I] e consideremos ainda, que essa seja a maior soma. No artigo, o autor diz que se a maior soma encontra-se em X[I], a segunda maior soma tem que ser encontrada em X[I-1]. Com essa ideia em mente, criamos uma função que percorre a lista uma única vez(este é o objetivo do /counter3/, que começa como o valor do tamanho do array), guardando apenas a maior soma através do uso recorrente da função =max= na variável =MaxSoFar=, após ser atualizada pela variável =MaxEndingHere=. Para que tal operação seja possível, precisamos da biblioteca /math-array/.
+Nesta implementação, temos um código com ordem de grandeza O(N). Sua essência é trabalhar com /arrays/ e é fundamentado na seguinte ideia: consideremos a soma de um intervalo X[I] e consideremos ainda, que essa seja a maior soma. No artigo, o autor diz que se a maior soma encontra-se em X[I], a segunda maior soma tem que ser encontrada em X[I-1]. Com essa ideia em mente, criamos uma função que percorre a lista uma única vez(este é o objetivo do /counter3/, que começa como o valor do tamanho do array), guardando apenas a maior soma através do uso recorrente da função =max= na variável =max-so-far=, após ser atualizada pela variável =max-ending-here=. Para que tal operação seja possível, precisamos da biblioteca /math-array/.
 
 *Algoritmo O(N))*
 #+BEGIN_SRC scheme
 (require math/array)
 
-(define (MaxSoFar-3 lst)
+(define (max-so-far-3 lst)
   (let ((p (list->array lst))
-        (MaxSoFar 0)
-        (MaxEndingHere 0))
+        (max-so-far 0)
+        (max-ending-here 0))
     (define (aux arr counter1 counter2 counter3)
       (if (equal? counter3 0)
           (max counter1 counter2)
           (aux arr (max counter1 counter2)
-               (max MaxEndingHere (+ counter2 (array-ref arr (vector (- counter3 1))))) (- counter3 1))))
-    (aux p MaxSoFar MaxEndingHere (array-size p))))
+               (max max-ending-here (+ counter2 (array-ref arr (vector (- counter3 1))))) (- counter3 1))))
+    (aux p max-so-far max-ending-here (array-size p))))
 
 #+END_SRC
 
