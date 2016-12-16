@@ -143,6 +143,8 @@ Nesta implementação, temos um código com ordem de grandeza O(N). Sua essênci
 
 * Tabela com resultados dos algoritimos
 
+Para chegar a tabela abaixo, usamos a função =time= englobando as implementações feitas com um vetor criado com a =create-vector=, este disponível na pasta /códigos/.
+
 | Algoritimo               |     | MSF-1       | MSF-2       | MaxSum      | MSF-3         |
 |--------------------------+-----+-------------+-------------+-------------+---------------|
 |                          |     |             |             |             |               |
