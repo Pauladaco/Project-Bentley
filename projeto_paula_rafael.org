@@ -1,0 +1,218 @@
+#+Title: Projeto: Tradução de artigo para Racket
+
+#+Author: Paula Daco e Rafael Mesquita
+
+* Introdução
+
+Neste projeto, vamos implementar em Racket quatro pseudocódigos do /essay/ "Algorithm Design Techniques" da coluna "Programming Pearls" da revista da Association for Computing Machinery, escrito pelo cientista da computação Jon Bentley, em 1984. 
+
+A coletânea dos textos da "Programming Pearls" é um clássico da commputação, citado por quase 300 papers da área, mas "Algorithm Design Techniques" merece um destaque especial, pois apresenta a discussão sobre complexidade computacional, algoritmos e técnicas de design de algoritmos de forma acessível e a exemplifica através de um problema específico. 
+
+Pensar complexidade e algoritmos é fundamental, permitindo que, com a técnica correta, lide-se com problemas até então considerados intratáveis. 
+
+* O problema do subvetor máximo e implementação do primeiro algoritmo
+
+O problema envolve calcular, dada uma lista, a maior soma em uma sequência de elementos dessa lista. Podemos pensar a lista enquanto um vetor e, assim, queremos identificar o subvetor que contenha a maior soma possível. Os elementos do vetor fazem parte do conjunto de números reais, já que, se o vetor fosse composto apenas por números positivos ou números negativos, a solução seria, necessariamente, o próprio vetor (se o vetor for positivo) ou 0 (se o vetor for negativo). 
+
+O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³)). Percebe-se que a essência deste algoritmo é utilizar =for= dentro de =for=, ocasionando assim, várias recursões durante o processo. Para começar, tivemos de implementar uma função que chamamos de =X=. Esta, por sua vez, é responsável por fazer a soma dos elementos no intervalo especificado. Para conseguirmos especificar o intervalo, criamos dois ponteiros: um que aponta para o início do intervalo e outro que aponta para o final.
+
+*Algoritmo O(N³)*
+#+BEGIN_SRC scheme
+ (define (x lista ptr1 ptr2)
+  (define (aux-x lista ptr1 ptr2 counter)
+    (if (equal? ptr1 ptr2)
+        counter
+        (aux-x lista ptr1 (- ptr2 1) (+ counter (list-ref lista (- ptr2 1))))))
+  (aux-x lista ptr1 ptr2 (list-ref lista (- ptr1 1))))
+
+
+(define (max-so-far-1 lst)
+  (let ((p 0))
+  (if (null? lst)
+      empty
+      (for ((i (+ (length lst) 1))
+                 #:when (> i 0))
+        (for ((j (range i (+ (length lst) 1))))
+          (if (> (X lst i j) p)
+                    (begin (set! p (X lst i j)))
+                    empty))))
+    p))
+#+END_SRC
+
+A função principal, ou seja, a função que retorna o subvetor de maior soma é a =max-so-far=. Esta usa a função =x= para calcular a soma dos intervalos. Os intervalos são feitos pelo uso de dois =for= o primeiro gera um =i= de 1 até =n=, e o segundo gera um =j= de =i= até =n=, assim temos intervalos de =i= até =j= que cobrem todas as possibilidades de subvetores possíveis. O subvetor de soma máxima é encontrado com o uso da variável =p=, sempre que a soma de um intervalo é maior que a maior soma já encontrada o =p= se atualiza. No fim desse loop o =p= é a soma do subvetor de maior soma.
+
+* O segundo algoritmo
+
+Neste algoritmo, temos uma ordem de grandeza quadrática O(N²). A ideia é: para calcular a soma de um intervalo X[L...U], podemos calcular a soma até uma unidade antes desse itervalo e somar com o valor do elemento na última posição do intervalo -> X[L...U]= X[L...U-1] + X[U].
+
+*Algoritmo O(N²)*
+#+BEGIN_SRC scheme
+
+(define (x-2 lista)
+  (define (aux-x lista counter max)
+    (if (empty? lista)
+        max
+        (aux-x (cdr lista) (+ counter (car lista)) (if (< (+ counter (car lista)) max)
+                                                       max
+                                                       (+ counter (car lista))))))
+  (aux-x lista 0 0))
+
+(define (max-so-far-2 lst)
+  (define (max-so-far-iter lst max)
+    (if (empty? lst)
+        max
+        (max-so-far-iter (cdr lst) (if (< (x-2 lst) max)
+                                     max
+                                     (x-2 lst)))))
+  (max-so-far-iter lst 0))
+  
+#+END_SRC
+
+* A estratégia do terceiro algoritmo
+
+O terceiro algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Para conseguirmos operar com as chamadas "primeira metade" e "segunda metade", precisamos criar a função =create-list=, que possui essa finalidade de dividir a lista ao meio. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. A seguir está o algoritmo implementado com listas:
+
+
+*Algoritmo O(Nlog(N))*
+#+BEGIN_SRC scheme
+(define (max-sum lst)
+  (define (create-list lst)
+    (let ((k (length lst)))
+      (define (aux lst1 lst2 counter)
+        (if (equal? counter 0)
+            (list lst1 lst2)
+            (aux (append lst1 (list (car lst2))) (cdr lst2) (- counter 1))))
+      (if (even? k)
+          (aux (list (car lst)) (cdr lst) (- (/ k 2) 1))
+          (aux (list (car lst)) (cdr lst) (- (/ (+ k 1) 2) 1)))))
+  (define (aux-sum lst1 lst2 sum1 sum2 maxtoleft maxtoright maxcrossing)
+    (cond ((equal? (length lst1) 1)
+           maxcrossing)
+          (else (begin (for ((i (range (length lst2))))
+                         (begin (set! sum1 (+ sum1 (list-ref lst2 i)))
+                                (set! maxtoright (max maxtoright sum1))))
+                       (for ((j (range (length lst1) 0 -1)))
+                         (begin (set! sum2 (+ sum2 (list-ref lst1 (- j 1))))
+                                (set! maxtoleft (max maxtoleft sum2))))
+                       (set! maxcrossing (+ maxtoright maxtoleft))
+                       (max (max-sum lst1)
+                            (max-sum lst2)
+                            maxcrossing)))))
+  (let ((p (createlist lst)))
+    (aux-sum (normalize (car p)) (normalize (cadr p)) 0 0 0 0 0)))
+    
+(define (normalize lst)
+  (if (and (odd? (length lst)) (> (length lst) 1))
+      (append lst '(0))
+      lst))
+
+#+END_SRC
+
+Para melhor compreensão, vamos explicar melhor o objetivo da implementação do algoritmo a partir da =max-sum=. A ideia é:
+
+1. Dividir a lista ao meio, criando "vetores" (na verdade, subvetores do vetor original, que foi implementado como uma lista);
+2. Calcular a maior soma em cada vetor através de um subvetor que comece pelo primeiro termo. No caso de vetores não-negativos, o subvetor é o próprio vetor;
+3. Calcular a maior soma que passe pelo intervalo intermediário onde foi dividida a lista;
+4. A ideia principal é: fazer esses três passos acima com os vetores que tem tamanho maior que 1. 
+
+Ou seja, inicializamos um vetor, dividindo-o na metade e fazendo todo esse processamento acima descrito. Perceba que, após dividi-lo, temos dois outros vetores e, supondo que eles tenham tamanhos maiores que 1, temos que fazer o mesmo processo com cada um deles.
+
+** Por que a função /normalize/ foi criada?
+A função =normalize= foi criada com o objetivo de facilitar o processamento do código, tendo em vista que haveria muitas divisões por dois(assumindo que os vetores sejam grandes). Suponhamos que queremos trabalhar com um vetor de tamanho 6. Este vetor é par e por isso, podemos dividi-lo por 2. Porém, ficaremos com dois vetores de tamanho 3 e sabendo que teremos de parti-lo novamente, teremos problemas(3/2=1,5). Com o intuito de evitar essas contas com decimais, criamos a =normalize= para tornar os vetores de tamanhos ímpares em tamanhos pares acrescentando 0, já que este é um elemento neutro da soma.
+
+* Implementação do quarto algoritmo
+
+Nesta implementação, temos um código com ordem de grandeza O(N). Sua essência é trabalhar com /arrays/ e é fundamentado na seguinte ideia: consideremos a soma de um intervalo X[I] e consideremos ainda, que essa seja a maior soma. No artigo, o autor diz que se a maior soma encontra-se em X[I], a segunda maior soma tem que ser encontrada em X[I-1]. Com essa ideia em mente, criamos uma função que percorre a lista uma única vez(este é o objetivo do /counter3/, que começa como o valor do tamanho do array), guardando apenas a maior soma através do uso recorrente da função =max= na variável =max-so-far=, após ser atualizada pela variável =max-ending-here=. Para que tal operação seja possível, precisamos da biblioteca /math-array/.
+
+*Algoritmo O(N))*
+#+BEGIN_SRC scheme
+(require math/array)
+
+(define (max-so-far-3 lst)
+  (let ((p (list->array lst))
+        (max-so-far 0)
+        (max-ending-here 0))
+    (define (aux arr counter1 counter2 counter3)
+      (if (equal? counter3 0)
+          (max counter1 counter2)
+          (aux arr (max counter1 counter2)
+               (max max-ending-here (+ counter2 (array-ref arr (vector (- counter3 1))))) (- counter3 1))))
+    (aux p max-so-far max-ending-here (array-size p))))
+
+#+END_SRC
+
+* Tabela com resultados dos algoritimos
+
+Para chegar a tabela abaixo, usamos a função =time= englobando as implementações feitas com um vetor criado com a =create-vector=, este segue abaixo. Os valores que aparecem na tabela foram alcançados através de regressões. Por exemplo, para concluir que leva-se 4.8 anos para a função MSF-1 operar sobre um vetor de tamanho 10^5, medimos o tempo que esta leva para operar com vetores de tamanhos 10^2 e 10^3. Testamos na MSF-2 vetores de tamanhos 10^2, 10^3 e 10^4, na MSF-3 com tamanhos 10^2, 10^3, 10^4 e 10^5. Por fim, testamos todos os tamanhos de vetores apresentados na MSF-3, tornando possível, assim, preencher a tabela e mostrar o tempo requerido por cada código. 
+
+
+| Algoritimo               |      | msf-1       | msf-2       | max-sum     | msf-3         |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| Run Time (milissegundos) |      | 0,00015.N^3 | 0,0004N²    | 0,4.Nlog(N) | 0,04.N        |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| Time to solve            | 10^2 | 150 ms      | 4 ms        | 80 ms       | 4 ms          |
+| problem of size          | 10^3 | 2.5 min     | 400 ms      | 1.2 s       | 40 ms         |
+|                          | 10^4 | 41 hrs      | 40 s        | 16 s        | 0.4 s         |
+|                          | 10^5 | 4.8 yrs     | 6.6 min     | 3.3 min     | 4 s           |
+|                          | 10^6 | 4.8 mill    | 11.1 hrs    | 40 min      | 40 s          |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| Max problem solved in    |  s   | 188         | 500         | 852         | 25,000        |
+|                          |  min | 736         | 3,873       | 33,179      | 1,500,000     |
+|                          |  hr  | 2,884       | 30,000      | 1,460,000   | 90,000,000    |
+|                          |  day | 8,320       | 147,000     | 28,948,135  | 2,160,000,000 |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| If N multiplies by 1O,   |      | 1000        | 100         | 10+         | 10            |
+| time multiplies by       |      |             |             |             |               |
+|--------------------------+------+-------------+-------------+-------------+---------------|
+|                          |      |             |             |             |               |
+| If time multiplies by    |      | 2.15        | 3.16        | 10-         | 10            |
+| 1O, N multiplies by      |      |             |             |             |               |
+
+*Código create-vector.*
+
+Esse codigo gera um vetor de =N= números aleatórios, esses variam de =-range= até =range=.
+
+#+BEGIN_SRC scheme
+
+(define (create-vector size range)
+  (define (create-vector-aux size range sign count vector)
+    (cond ((eq? size count) vector)
+          ((eq? sign #t)
+           (create-vector-aux size range (random-boolean) (+ count 1) (append vector (list (random-integer range)))))
+          ((eq? sign #f)
+           (create-vector-aux size range (random-boolean) (+ count 1) (append vector (list (- (random-integer range))))))))
+  (create-vector-aux size range (random-boolean) 0 '()))
+
+
+(define (random-boolean)
+  (if (< (random) 0.5)
+      #t
+      #f))
+
+(require (planet williams/science/random-source))
+
+#+END_SRC
+
+* Gráficos
+
+Os gráficos mostram a relação tamanho do vetor(N) /versus/ tempo de execução(t).
+
+*Gráfico com todos os algoritimos*
+
+Nesse gráfico fica claro que o primeiro algoritimo ganha muito mais tempo de execução com o aumento do vetor do que os outros três algoritimos.
+
+[[https://raw.githubusercontent.com/Pauladaco/LP-2016.2-EMAp-project/master/Gr-ficos/ComplexidadeTodos.png]]
+
+*Gráfico com os algoritimos msf-2 max-sum e msf-3*
+
+No gráfico anterior a diferença de complexidade entre os algoritimos msf-2, max-sum e msf-3 não estava clara. Porém nesse, como inclui apenas esses três algoritimos, é possivel ver a diferença.
+
+[[https://raw.githubusercontent.com/Pauladaco/LP-2016.2-EMAp-project/master/Gr-ficos/Complexidade-2-MS-3.png]]
+
+* Considerações finas
+
+Após o acompanhamento da evolução dos códigos, juntamente com o tempo de execução de cada um, é possível notar que é imprescindível a /reflexão sobre o código/ antes de tentar implementá-lo, pois muitas vezes ficamos perdidos no que tange ao objetivo do código em si. As otimizações feitas neste trabalho vão muito além da parte estética do código(embora seja importante), elas carregam a responsabilidade de ser suficientes para operar com listas de quantidades de elementos superiores a 10000.
