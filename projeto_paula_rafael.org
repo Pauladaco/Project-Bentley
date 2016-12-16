@@ -70,13 +70,13 @@ Neste algoritmo, temos uma ordem de grandeza quadrática O(N²). A ideia é: par
 
 * A estratégia do terceiro algoritmo
 
-O terceiro algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. A seguir está o algoritmo implementado com listas:
+O terceiro algoritmo implementado tem uma ordem O(N log(N)). É baseada na ideia de dividir a lista ao meio e calcular a maior soma na primeira metade, na segunda metade e por fim, calcular a maior soma que passe pelo meio onde a lista incial foi dividida. Para conseguirmos operar com as chamadas "primeira metade" e "segunda metade", precisamos criar a função =create-list=, que possui essa finalidade de dividir a lista ao meio. Esse tipo de algoritmo é conhecido como algoritmo de /divisão e conquista/. A seguir está o algoritmo implementado com listas:
 
 
 *Algoritmo O(Nlog(N))*
 #+BEGIN_SRC scheme
 (define (max-sum lst)
-  (define (createlist lst)
+  (define (create-list lst)
     (let ((k (length lst)))
       (define (aux lst1 lst2 counter)
         (if (equal? counter 0)
