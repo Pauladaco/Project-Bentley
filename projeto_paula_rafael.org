@@ -122,7 +122,7 @@ Para melhor compreensão, vamos explicar melhor o objetivo da implementação do
 3. Calcular a maior soma que passe pelo intervalo intermediário onde foi dividida a lista;
 4. A ideia principal é: fazer esses três passos acima com os vetores que tem tamanho maior que 1. 
 
-Ou seja, inicializamos um vetor, dividindo-o na metade e fazendo todo esse processamento acima descrito. Perceba que, após dividi-lo, temos dois outros vetores e, supondo que eles tenham tamanhos maior que 1, temos que fazer o mesmo processo com cada um deles.
+Ou seja, inicializamos um vetor, dividindo-o na metade e fazendo todo esse processamento acima descrito. Perceba que, após dividi-lo, temos dois outros vetores e, supondo que eles tenham tamanhos maiores que 1, temos que fazer o mesmo processo com cada um deles.
 
 ** Por que a função /normalize/ foi criada?
 A função =normalize= foi criada com o objetivo de facilitar o processamento do código, tendo em vista que haveria muitas divisões por dois(assumindo que os vetores sejam grandes). Suponhamos que queremos trabalhar com um vetor de tamanho 6. Este vetor é par e por isso, podemos dividi-lo por 2. Porém, ficaremos com dois vetores de tamanho 3 e sabendo que teremos de parti-lo novamente, teremos problemas(3/2=1,5). Com o intuito de evitar essas contas com decimais, criamos a =normalize= para tornar os vetores de tamanhos ímpares em tamanhos pares acrescentando 0, já que este é um elemento neutro da soma.
