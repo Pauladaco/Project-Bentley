@@ -143,7 +143,8 @@ Nesta implementação, temos um código com ordem de grandeza O(N). Sua essênci
 
 * Tabela com resultados dos algoritimos
 
-Para chegar a tabela abaixo, usamos a função =time= englobando as implementações feitas com um vetor criado com a =create-vector=, este disponível na pasta /códigos/. Os valores que aparecem na tabela foram alcançados através de regressões. Por exemplo, para concluir que leva-se 4.8 anos para a função MSF-1 operar sobre um vetor de tamanho 10^5, medimos o tempo que esta leva para operar com vetores de tamanhos 10^2 e 10^3. Testamos na MSF-2 vetores de tamanhos 10^2, 10^3 e 10^4, na MSF-3 com tamanhos 10^2, 10^3, 10^4 e 10^5. Por fim, testamos todos os tamanhos de vetores apresentados na MSF-3, tornando possível, assim, preencher a tabela e mostrar o tempo requerido por cada código. 
+Para chegar a tabela abaixo, usamos a função =time= englobando as implementações feitas com um vetor criado com a =create-vector=, este segue abaixo. Os valores que aparecem na tabela foram alcançados através de regressões. Por exemplo, para concluir que leva-se 4.8 anos para a função MSF-1 operar sobre um vetor de tamanho 10^5, medimos o tempo que esta leva para operar com vetores de tamanhos 10^2 e 10^3. Testamos na MSF-2 vetores de tamanhos 10^2, 10^3 e 10^4, na MSF-3 com tamanhos 10^2, 10^3, 10^4 e 10^5. Por fim, testamos todos os tamanhos de vetores apresentados na MSF-3, tornando possível, assim, preencher a tabela e mostrar o tempo requerido por cada código. 
+
 
 | Algoritimo               |      | msf-1       | msf-2       | max-sum     | msf-3         |
 |--------------------------+------+-------------+-------------+-------------+---------------|
@@ -171,6 +172,30 @@ Para chegar a tabela abaixo, usamos a função =time= englobando as implementaç
 | If time multiplies by    |      | 2.15        | 3.16        | 10-         | 10            |
 | 1O, N multiplies by      |      |             |             |             |               |
 
+*Código create-vector.*
+
+Esse codigo gera um vetor de =N= numeros aleatórios com um range que vai de -x até x.
+
+#+BEGIN_SRC scheme
+
+(define (create-vector size range)
+  (define (create-vector-aux size range sign count vector)
+    (cond ((eq? size count) vector)
+          ((eq? sign #t)
+           (create-vector-aux size range (random-boolean) (+ count 1) (append vector (list (random-integer range)))))
+          ((eq? sign #f)
+           (create-vector-aux size range (random-boolean) (+ count 1) (append vector (list (- (random-integer range))))))))
+  (create-vector-aux size range (random-boolean) 0 '()))
+
+
+(define (random-boolean)
+  (if (< (random) 0.5)
+      #t
+      #f))
+
+(require (planet williams/science/random-source))
+
+#+END_SRC
 
 * Gráficos
 
