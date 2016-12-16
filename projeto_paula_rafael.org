@@ -53,17 +53,17 @@ Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia é: 
     (if (empty? lista)
         max
         (aux-X (cdr lista) (+ counter (car lista)) (if (< (+ counter (car lista)) max)
-                                                                       max
-                                                                        (+ counter (car lista))))))
+                                                       max
+                                                       (+ counter (car lista))))))
   (aux-X lista 0 0))
 
 (define (MaxSoFar lst)
   (define (MaxSoFar-iter lst max)
     (if (empty? lst)
         max
-        (MaxSoFar4-iter (cdr lst) (if (< (X-2 lst) max)
-                                      max
-                                      (X-2 lst)))))
+        (MaxSoFar-iter (cdr lst) (if (< (X-2 lst) max)
+                                     max
+                                     (X-2 lst)))))
   (MaxSoFar-iter lst 0))
   
 #+END_SRC
