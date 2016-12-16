@@ -43,35 +43,28 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 
 * O segundo algoritmo
 
-Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia nos pareceu a mesma, com a sutileza da criação que da variável temporária que guarda a soma máxima /MaxSoFar/ seja atualizada conforme o valor for maior que o já estabelecido. Fizemos uma implementação com arrays e uma com listas. A função =X-array= é análoga a função =X= do código acima, apenas adaptada para trabalhar com /arrays/. Percebam que a ideia das duas é exatamente as mesmas, só mudamos a maneira de representação dos vetores.
+Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia é: para calcular a soma de um intervalo X[L...U], podemos calcular a soma até uma unidade antes desse itervalo e somar com o valor do elemento na última posição do intervalo -> X[L...U]= X[L...U-1] + X[U].
 
 *Algoritmo O(N²)*
 #+BEGIN_SRC scheme
 
-(require math/array)
+(define (X-2 lista)
+  (define (aux-X lista counter max)
+    (if (empty? lista)
+        max
+        (aux-X (cdr lista) (+ counter (car lista)) (if (< (+ counter (car lista)) max)
+                                                                       max
+                                                                        (+ counter (car lista))))))
+  (aux-X lista 0 0))
 
-(define (X-array arr ptr1 ptr2)
-  (define (auxX-array arr ptr1 ptr2 counter)
-    (if (equal? ptr1 ptr2)
-        counter
-        (auxX-array arr ptr1 (- ptr2 1) (+ counter (array-ref arr (vector (- ptr2 1)))))))
-  (auxX-array arr ptr1 ptr2 (array-ref arr (vector (- ptr1 1)))))
-
-(define (CumArray arr)
-  (let ((MaxSoFar 0))
-    (begin (for ((L (range 1 (+ (array-size arr) 1))))
-             (for ((U (range L (+ (array-size arr) 1)))
-                   #:when(> U L))
-               (set! MaxSoFar (max MaxSoFar (X-array arr L U)))))
-           MaxSoFar)))
-
-(define (CumList lst)
-  (let ((MaxSoFar 0))
-    (begin (for ((L (range 1 (+ (length lst) 1))))
-             (for ((U (range L (+ (length lst) 1)))
-                   #:when(> U L))
-               (set! MaxSoFar (max MaxSoFar (X lst L U)))))
-           MaxSoFar)))
+(define (MaxSoFar lst)
+  (define (MaxSoFar-iter lst max)
+    (if (empty? lst)
+        max
+        (MaxSoFar4-iter (cdr lst) (if (< (X-2 lst) max)
+                                      max
+                                      (X-2 lst)))))
+  (MaxSoFar-iter lst 0))
   
 #+END_SRC
 
