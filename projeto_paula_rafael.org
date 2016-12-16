@@ -174,7 +174,7 @@ Para chegar a tabela abaixo, usamos a função =time= englobando as implementaç
 
 *Código create-vector.*
 
-Esse codigo gera um vetor de =N= numeros aleatórios com um range que vai de -x até x.
+Esse codigo gera um vetor de =N= números aleatórios, esses variam de =-range= até =range=.
 
 #+BEGIN_SRC scheme
 
