@@ -58,23 +58,19 @@ Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia nos 
   (auxX-array arr ptr1 ptr2 (array-ref arr (vector (- ptr1 1)))))
 
 (define (CumArray arr)
-  (let ((Sum 0)
-        (MaxSoFar 0))
+  (let ((MaxSoFar 0))
     (begin (for ((L (range 1 (+ (array-size arr) 1))))
              (for ((U (range L (+ (array-size arr) 1)))
                    #:when(> U L))
-               (begin (set! Sum (X-array arr L U))
-                      (set! MaxSoFar (max MaxSoFar Sum)))))
-           MaxSoFar
+               (set! MaxSoFar (max MaxSoFar (X-array arr L U)))))
+           MaxSoFar)))
 
 (define (CumList lst)
-  (let ((Sum 0)
-        (MaxSoFar 0))
+  (let ((MaxSoFar 0))
     (begin (for ((L (range 1 (+ (length lst) 1))))
              (for ((U (range L (+ (length lst) 1)))
                    #:when(> U L))
-               (begin (set! Sum (X lst L U))
-                      (set! MaxSoFar (max MaxSoFar Sum)))))
+               (set! MaxSoFar (max MaxSoFar (X lst L U)))))
            MaxSoFar)))
   
 #+END_SRC
