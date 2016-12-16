@@ -4,7 +4,7 @@
 
 * Introdução
 
-Neste projeto, vamos implementar em Racket três pseudocódigos do /essay/ "Algorithm Design Techniques" da coluna "Programming Pearls" da revista da Association for Computing Machinery, escrito pelo cientista da computação Jon Bentley, em 1984. 
+Neste projeto, vamos implementar em Racket quatro pseudocódigos do /essay/ "Algorithm Design Techniques" da coluna "Programming Pearls" da revista da Association for Computing Machinery, escrito pelo cientista da computação Jon Bentley, em 1984. 
 
 A coletânea dos textos da "Programming Pearls" é um clássico da commputação, citado por quase 300 papers da área, mas "Algorithm Design Techniques" merece um destaque especial, pois apresenta a discussão sobre complexidade computacional, algoritmos e técnicas de design de algoritmos de forma acessível e a exemplifica através de um problema específico. 
 
@@ -43,7 +43,7 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 
 * O segundo algoritmo
 
-Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia é: para calcular a soma de um intervalo X[L...U], podemos calcular a soma até uma unidade antes desse itervalo e somar com o valor do elemento na última posição do intervalo -> X[L...U]= X[L...U-1] + X[U].
+Neste algoritmo, temos uma ordem de grandeza quadrática O(N²). A ideia é: para calcular a soma de um intervalo X[L...U], podemos calcular a soma até uma unidade antes desse itervalo e somar com o valor do elemento na última posição do intervalo -> X[L...U]= X[L...U-1] + X[U].
 
 *Algoritmo O(N²)*
 #+BEGIN_SRC scheme
@@ -122,7 +122,7 @@ A função =normalize= foi criada com o objetivo de facilitar o processamento do
 
 * Implementação do quarto algoritmo
 
-Nesta implementação, temos um código com ordem de grandeza *O(N)*. Sua essência é trabalhar com /arrays/ e é fundamentado na seguinte ideia: consideremos a soma de um intervalo X[I] e consideremos ainda, que essa seja a maior soma. No artigo, o autor diz que se a maior soma encontra-se em X[I], a segunda maior soma tem que ser encontrada em X[I-1]. Com essa ideia em mente, criamos uma função que percorre a lista uma única vez(este é o objetivo do /counter3/, que começa como o valor do tamanho do array), guardando apenas a maior soma através do uso recorrente da função =max= na variável =MaxSoFar=, após ser atualizada pela variável =MaxEndingHere=. Para que tal operação seja possível, precisamos da biblioteca /math-array/.
+Nesta implementação, temos um código com ordem de grandeza O(N). Sua essência é trabalhar com /arrays/ e é fundamentado na seguinte ideia: consideremos a soma de um intervalo X[I] e consideremos ainda, que essa seja a maior soma. No artigo, o autor diz que se a maior soma encontra-se em X[I], a segunda maior soma tem que ser encontrada em X[I-1]. Com essa ideia em mente, criamos uma função que percorre a lista uma única vez(este é o objetivo do /counter3/, que começa como o valor do tamanho do array), guardando apenas a maior soma através do uso recorrente da função =max= na variável =MaxSoFar=, após ser atualizada pela variável =MaxEndingHere=. Para que tal operação seja possível, precisamos da biblioteca /math-array/.
 
 *Algoritmo O(N))*
 #+BEGIN_SRC scheme
