@@ -12,7 +12,7 @@ Pensar complexidade e algoritmos é fundamental, permitindo que, com a técnica 
 
 * O problema do subvetor máximo e implementação do primeiro algoritmo
 
-O problema envolve calcular, dada uma lista, a maior soma em uma sequência de elementos dessa lista. Podemos pensar a lista enquanto um vetor e, assim, queremos identificar o subvetor que contenha a maior soma possível. Os elementos do vetor fazem parte do conjunto de númerosreais, já que, se o vetor fosse composto apenas por números positivos ou números negativos, a solução seria, necessariamente, o próprio vetor (se o vetor for positivo) ou 0 (se o vetor for negativo). 
+O problema envolve calcular, dada uma lista, a maior soma em uma sequência de elementos dessa lista. Podemos pensar a lista enquanto um vetor e, assim, queremos identificar o subvetor que contenha a maior soma possível. Os elementos do vetor fazem parte do conjunto de números reais, já que, se o vetor fosse composto apenas por números positivos ou números negativos, a solução seria, necessariamente, o próprio vetor (se o vetor for positivo) ou 0 (se o vetor for negativo). 
 
 O primeiro algoritmo que implementamos possui ordem cúbica de grandeza (O(N³)). Percebe-se que a essência deste algoritmo é utilizar =for= dentro de =for=, ocasionando assim, várias recursões durante o processo. Para começar, tivemos de implementar uma função que chamamos de =X=. Esta, por sua vez, é responsável por fazer a soma dos elementos no intervalo especificado. Para conseguirmos especificar o intervalo, criamos dois ponteiros: um que aponta para o início do intervalo e outro que aponta para o final.
 
