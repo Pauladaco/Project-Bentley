@@ -43,22 +43,12 @@ A função principal, ou seja, a função que retorna o subvetor de maior soma �
 
 * O segundo algoritmo
 
-Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia nos pareceu a mesma, com a sutileza da criação que da variável temporária que guarda a soma para que a variável de estado principal /MaxSoFar/ seja atualizada conforme o valor for maior que o já estabelecido. Fizemos uma implementação com arrays. A função =X-array= é análoga a função =X= do código acima, apenas adaptada para trabalhar com /arrays/.
+Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia nos pareceu a mesma, com a sutileza da criação que da variável temporária que guarda a soma para que a variável de estado principal /MaxSoFar/ seja atualizada conforme o valor for maior que o já estabelecido. Fizemos uma implementação com arrays e uma com listas. A função =X-array= é análoga a função =X= do código acima, apenas adaptada para trabalhar com /arrays/. Percebam que a ideia das duas é exatamente as mesmas, só mudamos a maneira de representação dos vetores.
 
 *Algoritmo O(N²)*
 #+BEGIN_SRC scheme
 
 (require math/array)
-
-(define (CumArray x)
-  (let ((Sum 0)
-        (MaxSoFar 0))
-    (begin (for ((L (range 1 (+ (array-size x) 1))))
-             (for ((U (range L (+ (array-size x) 1)))
-                   #:when(> U L))
-               (begin (set! Sum (X-array x L U))
-                      (set! MaxSoFar (max MaxSoFar Sum)))))
-           MaxSoFar)))
 
 (define (X-array arr ptr1 ptr2)
   (define (auxX-array arr ptr1 ptr2 counter)
@@ -66,6 +56,26 @@ Neste algoritmo, temos uma ordem de grandeza quadrática(*O(N²)*). A ideia nos 
         counter
         (auxX-array arr ptr1 (- ptr2 1) (+ counter (array-ref arr (vector (- ptr2 1)))))))
   (auxX-array arr ptr1 ptr2 (array-ref arr (vector (- ptr1 1)))))
+
+(define (CumArray arr)
+  (let ((Sum 0)
+        (MaxSoFar 0))
+    (begin (for ((L (range 1 (+ (array-size arr) 1))))
+             (for ((U (range L (+ (array-size arr) 1)))
+                   #:when(> U L))
+               (begin (set! Sum (X-array arr L U))
+                      (set! MaxSoFar (max MaxSoFar Sum)))))
+           MaxSoFar
+
+(define (CumList lst)
+  (let ((Sum 0)
+        (MaxSoFar 0))
+    (begin (for ((L (range 1 (+ (length lst) 1))))
+             (for ((U (range L (+ (length lst) 1)))
+                   #:when(> U L))
+               (begin (set! Sum (X lst L U))
+                      (set! MaxSoFar (max MaxSoFar Sum)))))
+           MaxSoFar)))
   
 #+END_SRC
 
