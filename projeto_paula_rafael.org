@@ -196,3 +196,7 @@ Nesse gráfico fica claro que o primeiro algoritimo ganha muito mais tempo de ex
 No gráfico anterior a diferença de complexidade entre os algoritimos 2 e 3 não estava clara. Porém nesse, como inclui apenas esses dois algoritimos, é possivel ver a diferença.
 
 [[https://raw.githubusercontent.com/Pauladaco/LP-2016.2-EMAp-project/master/Gr-ficos/Complexidade-2-3.png]]
+
+* Considerações finas
+
+Após o acompanhamento da evolução dos códigos, juntamente com o tempo de execução de cada um, é possível notar que é imprescindível a /reflexão sobre o código/ antes de tentar implementá-lo, pois muitas vezes ficamos perdidos no que tange ao objetivo do código em si. As otimizações feitas neste trabalho vão muito além da parte estética do código(embora seja importante), elas carregam a responsabilidade de ser suficientes para operar com listas de quantidades de elementos superiores a 10000.
